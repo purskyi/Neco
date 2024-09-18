@@ -94,6 +94,7 @@ fun TopAppBarWithAppName(total: Int = 0, modifier: Modifier = Modifier) {
 fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
     var total by remember { mutableStateOf(0) }
     val counters = remember { mutableStateListOf(*Array(10) { 0 }) }
+    val colors = remember { mutableStateListOf(*List(10) { Color.Cyan }.toTypedArray()) }
 
     Scaffold(topBar = { TopAppBarWithAppName(total) })
     { BarPadding ->
@@ -103,6 +104,7 @@ fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
                 name = name,
                 job = job,
                 counterValue = counters[index],
+                colorValue = colors[index],
                 onCounterClick = { total++
                 counters[index]++}
             )
@@ -113,13 +115,11 @@ fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
 }
 
 @Composable
-fun myApp(name: String, job: String, counterValue: Int, onCounterClick: () -> Unit, modifier: Modifier = Modifier) {
-    var counter by remember { mutableStateOf(0) }
+fun myApp(name: String, job: String, counterValue: Int, colorValue: Color, onCounterClick: () -> Unit, modifier: Modifier = Modifier) {
 
+    var newColor = colorValue
+    newColor = if (counterValue > 10)  Color.Red else Color.Cyan
     Card(modifier = modifier
-        /*  .pointerInput(Unit) {
-            detectDragGestures { change, dragAmount -> Log.d("My log", "  $dragAmount") }
-        }*/
         .fillMaxWidth()
         .padding(10.dp)
         .clickable {
@@ -131,7 +131,7 @@ fun myApp(name: String, job: String, counterValue: Int, onCounterClick: () -> Un
     ){ Box(modifier = Modifier
         //   .clickable { Log.d("My log", "Clked") }
         .fillMaxWidth()
-        .background(Color.Cyan)){
+        .background(newColor)){
         Row(modifier = Modifier
             .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically) {
