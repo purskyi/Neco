@@ -92,11 +92,11 @@ fun TopAppBarWithAppName(total: Int = 0, modifier: Modifier = Modifier) {
 
 @Composable
 fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
-    var total by remember { mutableStateOf(0) }
+    val total = remember { mutableStateOf(0) }
     val counters = remember { mutableStateListOf(*Array(10) { 0 }) }
     val colors = remember { mutableStateListOf(*List(10) { Color.Cyan }.toTypedArray()) }
 
-    Scaffold(topBar = { TopAppBarWithAppName(total) })
+    Scaffold(topBar = { TopAppBarWithAppName(total.value) })
     { BarPadding ->
     LazyColumn(contentPadding = BarPadding) {
         items(10) { index ->
@@ -105,7 +105,7 @@ fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
                 job = job,
                 counterValue = counters[index],
                 colorValue = colors[index],
-                onCounterClick = { total++
+                onCounterClick = { total.value++
                 counters[index]++
                 when( counters[index]){
                   in 0 .. 10 -> colors[index] = Color.Cyan
