@@ -106,7 +106,11 @@ fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
                 counterValue = counters[index],
                 colorValue = colors[index],
                 onCounterClick = { total++
-                counters[index]++}
+                counters[index]++
+                when( counters[index]){
+                  in 0 .. 10 -> colors[index] = Color.Cyan
+                    else -> colors[index] = Color.Red
+                }}
             )
 
         }
@@ -117,8 +121,6 @@ fun myWholeApp(name: String, job: String, modifier: Modifier = Modifier){
 @Composable
 fun myApp(name: String, job: String, counterValue: Int, colorValue: Color, onCounterClick: () -> Unit, modifier: Modifier = Modifier) {
 
-    var newColor = colorValue
-    newColor = if (counterValue > 10)  Color.Red else Color.Cyan
     Card(modifier = modifier
         .fillMaxWidth()
         .padding(10.dp)
@@ -131,7 +133,7 @@ fun myApp(name: String, job: String, counterValue: Int, colorValue: Color, onCou
     ){ Box(modifier = Modifier
         //   .clickable { Log.d("My log", "Clked") }
         .fillMaxWidth()
-        .background(newColor)){
+        .background(colorValue)){
         Row(modifier = Modifier
             .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically) {
